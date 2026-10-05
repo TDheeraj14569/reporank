@@ -1,0 +1,146 @@
+{
+  "id": "repo-002",
+  "slug": "repair-inventory-reservation",
+  "title": "Inventory Service - Reservation Bug",
+  "description": "Inventory reservations are causing overselling due to a race condition. Make the reservation atomic.",
+  "difficulty": "medium",
+  "taskType": "bug-fix",
+  "technology": [
+    "Python",
+    "FastAPI"
+  ],
+  "language": "python",
+  "estimatedTimeMinutes": 30,
+  "skills": [
+    "Python",
+    "Concurrency",
+    "FastAPI"
+  ],
+  "tags": [
+    "backend",
+    "python",
+    "bug"
+  ],
+  "companyPattern": "E-commerce",
+  "repositoryName": "inventory-service",
+  "files": [
+    {
+      "id": "f1",
+      "name": "README.md",
+      "path": "README.md",
+      "content": "# Inventory Service\nFix the race condition in the inventory reservation logic.",
+      "language": "markdown",
+      "type": "file",
+      "size": 100
+    },
+    {
+      "id": "f2",
+      "name": "main.py",
+      "path": "app/main.py",
+      "content": "from fastapi import FastAPI\nfrom app.routes import inventory\n\napp = FastAPI()\napp.include_router(inventory.router)\n",
+      "language": "python",
+      "type": "file",
+      "size": 150
+    },
+    {
+      "id": "f3",
+      "name": "inventory.py",
+      "path": "app/routes/inventory.py",
+      "content": "from fastapi import APIRouter, Depends\nfrom app.services.inventory_service import reserve_stock\n\nrouter = APIRouter()\n\n@router.post(\"/reserve\")\ndef reserve(product_id: int, quantity: int):\n    return reserve_stock(product_id, quantity)\n",
+      "language": "python",
+      "type": "file",
+      "size": 250
+    },
+    {
+      "id": "f4",
+      "name": "inventory_service.py",
+      "path": "app/services/inventory_service.py",
+      "content": "from app.database import db_session\nfrom app.models.product import Product\n\ndef reserve_stock(product_id: int, quantity: int):\n    product = db_session.query(Product).filter(Product.id == product_id).first()\n    if not product:\n        raise ValueError(\"Product not found\")\n    \n    # BUG: Non-atomic read-then-write\n    if product.stock >= quantity:\n        product.stock -= quantity\n        db_session.commit()\n        return True\n    return False\n",
+      "language": "python",
+      "type": "file",
+      "size": 450
+    },
+    {
+      "id": "f5",
+      "name": "product.py",
+      "path": "app/models/product.py",
+      "content": "class Product:\n    def __init__(self, id, stock):\n        self.id = id\n        self.stock = stock\n",
+      "language": "python",
+      "type": "file",
+      "size": 150
+    },
+    {
+      "id": "f6",
+      "name": "database.py",
+      "path": "app/database.py",
+      "content": "class MockDBSession:\n    def query(self, model):\n        return self\n    def filter(self, condition):\n        return self\n    def first(self):\n        from app.models.product import Product\n        return Product(1, 10)\n    def commit(self):\n        pass\n\ndb_session = MockDBSession()\n",
+      "language": "python",
+      "type": "file",
+      "size": 300
+    },
+    {
+      "id": "f7",
+      "name": "test_inventory.py",
+      "path": "tests/test_inventory.py",
+      "content": "def test_reservation_success():\n    assert True\n",
+      "language": "python",
+      "type": "file",
+      "size": 100
+    },
+    {
+      "id": "f8",
+      "name": "test_reservation.py",
+      "path": "tests/test_reservation.py",
+      "content": "from app.services.inventory_service import reserve_stock\n\ndef test_concurrent_reservation():\n    # Test mock failure indicating race condition\n    assert False, \"Oversold inventory\"\n",
+      "language": "python",
+      "type": "file",
+      "size": 200
+    }
+  ],
+  "editableFiles": [
+    "app/services/inventory_service.py"
+  ],
+  "readOnlyFiles": [
+    "tests/test_reservation.py"
+  ],
+  "runCommand": "uvicorn app.main:app",
+  "testCommand": "pytest",
+  "visibleTests": [
+    {
+      "id": "t1",
+      "name": "test_reservation_success",
+      "status": "passed",
+      "error": null,
+      "timeMs": 10,
+      "isPassed": true
+    },
+    {
+      "id": "t2",
+      "name": "test_concurrent_reservation",
+      "status": "failed",
+      "error": "Oversold inventory",
+      "timeMs": 15,
+      "isPassed": false
+    }
+  ],
+  "hiddenTestCount": 4,
+  "requirements": [
+    "Use atomic operations or locks to prevent overselling."
+  ],
+  "constraints": [],
+  "acceptanceCriteria": [
+    "All tests pass, avoiding race conditions."
+  ],
+  "hints": [
+    {
+      "id": "h1",
+      "text": "Use select_for_update or a synchronized lock."
+    }
+  ],
+  "editorial": {
+    "content": "Update the query to use an atomic update or row-level lock.",
+    "author": "RepoRank",
+    "createdAt": "2024-01-01T00:00:00Z",
+    "estimatedReadTimeMinutes": 2
+  }
+}

@@ -1,0 +1,4 @@
+{
+  "buildCmd": "go build ./...",
+  "testCmd": "go test -race ./..."
+}

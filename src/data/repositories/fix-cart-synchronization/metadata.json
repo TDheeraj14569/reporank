@@ -1,0 +1,83 @@
+{
+  "id": "repo-006",
+  "slug": "fix-cart-synchronization",
+  "title": "Shopping Cart Service - Sync Bug",
+  "description": "Cart total does not recalculate when item quantities change.",
+  "difficulty": "medium",
+  "taskType": "bug-fix",
+  "technology": [
+    "Node.js",
+    "Express"
+  ],
+  "language": "javascript",
+  "estimatedTimeMinutes": 30,
+  "skills": [
+    "Node.js",
+    "State Management"
+  ],
+  "tags": [
+    "backend",
+    "nodejs",
+    "bug"
+  ],
+  "companyPattern": "E-commerce",
+  "repositoryName": "shopping-cart-service",
+  "files": [
+    {
+      "id": "f1",
+      "name": "cartService.js",
+      "path": "src/services/cartService.js",
+      "content": "function updateItemQuantity(cart, itemId, quantity) {\n  const item = cart.items.find(i => i.id === itemId);\n  if (item) {\n    item.quantity = quantity;\n    // BUG: Missing cart.total = calculateTotal(cart.items);\n  }\n  return cart;\n}\nmodule.exports = { updateItemQuantity };\n",
+      "language": "javascript",
+      "type": "file",
+      "size": 300
+    },
+    {
+      "id": "f2",
+      "name": "cart.test.js",
+      "path": "tests/cart.test.js",
+      "content": "const { updateItemQuantity } = require(\"../src/services/cartService\");\n\ntest(\"Total should update when quantity changes\", () => {\n  const cart = { items: [{ id: 1, price: 10, quantity: 1 }], total: 10 };\n  updateItemQuantity(cart, 1, 3);\n  if (cart.total !== 30) throw new Error(\"Total not updated\");\n});\n",
+      "language": "javascript",
+      "type": "file",
+      "size": 300
+    }
+  ],
+  "editableFiles": [
+    "src/services/cartService.js"
+  ],
+  "readOnlyFiles": [
+    "tests/cart.test.js"
+  ],
+  "runCommand": "node src/index.js",
+  "testCommand": "npm test",
+  "visibleTests": [
+    {
+      "id": "t1",
+      "name": "Total should update when quantity changes",
+      "status": "failed",
+      "error": "Total not updated",
+      "timeMs": 5,
+      "isPassed": false
+    }
+  ],
+  "hiddenTestCount": 6,
+  "requirements": [
+    "Update cart total on quantity change."
+  ],
+  "constraints": [],
+  "acceptanceCriteria": [
+    "Test passes."
+  ],
+  "hints": [
+    {
+      "id": "h1",
+      "text": "Recalculate total after updating quantity."
+    }
+  ],
+  "editorial": {
+    "content": "Call calculateTotal after modifying quantity.",
+    "author": "RepoRank",
+    "createdAt": "2024-01-01T00:00:00Z",
+    "estimatedReadTimeMinutes": 1
+  }
+}

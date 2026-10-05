@@ -1,0 +1,4 @@
+{
+  "buildCmd": "mvn clean test",
+  "testCmd": "mvn test"
+}

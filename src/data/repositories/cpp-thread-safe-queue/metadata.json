@@ -1,0 +1,4 @@
+{
+  "buildCmd": "g++ -std=c++17 -I include -pthread src/*.cpp tests/*.cpp -o main",
+  "testCmd": "./main"
+}

@@ -1,0 +1,194 @@
+{
+  "id": "repo-001",
+  "slug": "fix-order-state-machine",
+  "title": "Order Service - State Machine Fix",
+  "description": "The order service has a bug where a cancelled order can still be marked as shipped. Fix the state machine to prevent invalid transitions from a CANCELLED state.",
+  "difficulty": "medium",
+  "taskType": "bug-fix",
+  "technology": [
+    "Java",
+    "Spring Boot"
+  ],
+  "language": "java",
+  "estimatedTimeMinutes": 30,
+  "skills": [
+    "Java",
+    "Spring",
+    "State Machine",
+    "Validation"
+  ],
+  "tags": [
+    "backend",
+    "spring-boot",
+    "bug"
+  ],
+  "companyPattern": "E-commerce",
+  "repositoryName": "order-service",
+  "files": [
+    {
+      "id": "f1",
+      "name": "README.md",
+      "path": "README.md",
+      "content": "# Order Service\n\nThis is a Spring Boot application managing orders.\n\n## Requirements\n- Prevent cancelled orders from transitioning to any other state (like SHIPPED).\n\n## Running tests\n`mvn test`\n",
+      "language": "markdown",
+      "type": "file",
+      "size": 150
+    },
+    {
+      "id": "f2",
+      "name": "OrderController.java",
+      "path": "src/main/java/com/orderservice/controller/OrderController.java",
+      "content": "package com.orderservice.controller;\n\nimport com.orderservice.service.OrderService;\nimport com.orderservice.model.OrderStatus;\nimport org.springframework.web.bind.annotation.*;\n\n@RestController\n@RequestMapping(\"/api/orders\")\npublic class OrderController {\n    private final OrderService orderService;\n\n    public OrderController(OrderService orderService) {\n        this.orderService = orderService;\n    }\n\n    @PutMapping(\"/{id}/status\")\n    public void updateStatus(@PathVariable String id, @RequestParam OrderStatus status) {\n        orderService.updateOrderStatus(id, status);\n    }\n}\n",
+      "language": "java",
+      "type": "file",
+      "size": 400
+    },
+    {
+      "id": "f3",
+      "name": "OrderService.java",
+      "path": "src/main/java/com/orderservice/service/OrderService.java",
+      "content": "package com.orderservice.service;\n\nimport com.orderservice.model.Order;\nimport com.orderservice.model.OrderStatus;\nimport com.orderservice.repository.OrderRepository;\nimport com.orderservice.exception.InvalidStateTransitionException;\nimport org.springframework.stereotype.Service;\n\n@Service\npublic class OrderService {\n    private final OrderRepository orderRepository;\n\n    public OrderService(OrderRepository orderRepository) {\n        this.orderRepository = orderRepository;\n    }\n\n    public void updateOrderStatus(String orderId, OrderStatus newStatus) {\n        Order order = orderRepository.findById(orderId)\n            .orElseThrow(() -> new RuntimeException(\"Order not found\"));\n        \n        // BUG: Missing check if current status is CANCELLED\n        if (order.getStatus() == OrderStatus.DELIVERED) {\n            throw new InvalidStateTransitionException(\"Cannot change status of delivered order\");\n        }\n\n        order.setStatus(newStatus);\n        orderRepository.save(order);\n    }\n}\n",
+      "language": "java",
+      "type": "file",
+      "size": 800
+    },
+    {
+      "id": "f4",
+      "name": "OrderRepository.java",
+      "path": "src/main/java/com/orderservice/repository/OrderRepository.java",
+      "content": "package com.orderservice.repository;\n\nimport com.orderservice.model.Order;\nimport org.springframework.data.jpa.repository.JpaRepository;\nimport org.springframework.stereotype.Repository;\n\n@Repository\npublic interface OrderRepository extends JpaRepository<Order, String> {\n}\n",
+      "language": "java",
+      "type": "file",
+      "size": 200
+    },
+    {
+      "id": "f5",
+      "name": "Order.java",
+      "path": "src/main/java/com/orderservice/model/Order.java",
+      "content": "package com.orderservice.model;\n\nimport javax.persistence.Entity;\nimport javax.persistence.Id;\nimport javax.persistence.Table;\n\n@Entity\n@Table(name = \"orders\")\npublic class Order {\n    @Id\n    private String id;\n    private OrderStatus status;\n\n    public String getId() { return id; }\n    public void setId(String id) { this.id = id; }\n    public OrderStatus getStatus() { return status; }\n    public void setStatus(OrderStatus status) { this.status = status; }\n}\n",
+      "language": "java",
+      "type": "file",
+      "size": 400
+    },
+    {
+      "id": "f6",
+      "name": "OrderStatus.java",
+      "path": "src/main/java/com/orderservice/model/OrderStatus.java",
+      "content": "package com.orderservice.model;\n\npublic enum OrderStatus {\n    CREATED,\n    CONFIRMED,\n    SHIPPED,\n    DELIVERED,\n    CANCELLED\n}\n",
+      "language": "java",
+      "type": "file",
+      "size": 150
+    },
+    {
+      "id": "f7",
+      "name": "OrderException.java",
+      "path": "src/main/java/com/orderservice/exception/OrderException.java",
+      "content": "package com.orderservice.exception;\n\npublic class OrderException extends RuntimeException {\n    public OrderException(String message) { super(message); }\n}\n",
+      "language": "java",
+      "type": "file",
+      "size": 150
+    },
+    {
+      "id": "f8",
+      "name": "InvalidStateTransitionException.java",
+      "path": "src/main/java/com/orderservice/exception/InvalidStateTransitionException.java",
+      "content": "package com.orderservice.exception;\n\npublic class InvalidStateTransitionException extends RuntimeException {\n    public InvalidStateTransitionException(String message) { super(message); }\n}\n",
+      "language": "java",
+      "type": "file",
+      "size": 180
+    },
+    {
+      "id": "f9",
+      "name": "OrderCreationTest.java",
+      "path": "src/test/java/com/orderservice/OrderCreationTest.java",
+      "content": "package com.orderservice;\n\nimport org.junit.jupiter.api.Test;\nimport static org.junit.jupiter.api.Assertions.assertTrue;\n\npublic class OrderCreationTest {\n    @Test\n    public void testOrderCreation() {\n        assertTrue(true);\n    }\n}\n",
+      "language": "java",
+      "type": "file",
+      "size": 200
+    },
+    {
+      "id": "f10",
+      "name": "OrderCancellationTest.java",
+      "path": "src/test/java/com/orderservice/OrderCancellationTest.java",
+      "content": "package com.orderservice;\n\nimport com.orderservice.service.OrderService;\nimport com.orderservice.model.Order;\nimport com.orderservice.model.OrderStatus;\nimport com.orderservice.repository.OrderRepository;\nimport com.orderservice.exception.InvalidStateTransitionException;\nimport org.junit.jupiter.api.Test;\nimport org.mockito.Mockito;\nimport java.util.Optional;\nimport static org.junit.jupiter.api.Assertions.assertThrows;\nimport static org.mockito.ArgumentMatchers.any;\n\npublic class OrderCancellationTest {\n    @Test\n    public void testCannotShipCancelledOrder() {\n        OrderRepository repo = Mockito.mock(OrderRepository.class);\n        Order order = new Order();\n        order.setId(\"1\");\n        order.setStatus(OrderStatus.CANCELLED);\n        Mockito.when(repo.findById(\"1\")).thenReturn(Optional.of(order));\n        \n        OrderService service = new OrderService(repo);\n        assertThrows(InvalidStateTransitionException.class, () -> {\n            service.updateOrderStatus(\"1\", OrderStatus.SHIPPED);\n        });\n    }\n}\n",
+      "language": "java",
+      "type": "file",
+      "size": 700
+    },
+    {
+      "id": "f11",
+      "name": "OrderStatusTransitionTest.java",
+      "path": "src/test/java/com/orderservice/OrderStatusTransitionTest.java",
+      "content": "package com.orderservice;\n\nimport org.junit.jupiter.api.Test;\nimport static org.junit.jupiter.api.Assertions.assertTrue;\n\npublic class OrderStatusTransitionTest {\n    @Test\n    public void testValidTransition() {\n        assertTrue(true);\n    }\n}\n",
+      "language": "java",
+      "type": "file",
+      "size": 200
+    },
+    {
+      "id": "f12",
+      "name": "pom.xml",
+      "path": "pom.xml",
+      "content": "<project>\n  <modelVersion>4.0.0</modelVersion>\n  <groupId>com.orderservice</groupId>\n  <artifactId>order-service</artifactId>\n  <version>1.0.0</version>\n  <dependencies>\n    <dependency>\n      <groupId>org.springframework.boot</groupId>\n      <artifactId>spring-boot-starter-web</artifactId>\n    </dependency>\n    <dependency>\n      <groupId>org.springframework.boot</groupId>\n      <artifactId>spring-boot-starter-data-jpa</artifactId>\n    </dependency>\n    <dependency>\n      <groupId>org.springframework.boot</groupId>\n      <artifactId>spring-boot-starter-test</artifactId>\n      <scope>test</scope>\n    </dependency>\n  </dependencies>\n</project>\n",
+      "language": "xml",
+      "type": "file",
+      "size": 500
+    }
+  ],
+  "editableFiles": [
+    "src/main/java/com/orderservice/service/OrderService.java"
+  ],
+  "readOnlyFiles": [
+    "pom.xml"
+  ],
+  "runCommand": "mvn spring-boot:run",
+  "testCommand": "mvn test",
+  "visibleTests": [
+    {
+      "id": "t1",
+      "name": "OrderCreationTest.testOrderCreation",
+      "status": "passed",
+      "error": null,
+      "timeMs": 45,
+      "isPassed": true
+    },
+    {
+      "id": "t2",
+      "name": "OrderStatusTransitionTest.testValidTransition",
+      "status": "passed",
+      "error": null,
+      "timeMs": 23,
+      "isPassed": true
+    },
+    {
+      "id": "t3",
+      "name": "OrderCancellationTest.testCannotShipCancelledOrder",
+      "status": "failed",
+      "error": "Expected InvalidStateTransitionException but none was thrown",
+      "timeMs": 50,
+      "isPassed": false
+    }
+  ],
+  "hiddenTestCount": 5,
+  "requirements": [
+    "Prevent transition from CANCELLED state."
+  ],
+  "constraints": [
+    "Must use Java 11+",
+    "Spring Boot 2.7+"
+  ],
+  "acceptanceCriteria": [
+    "All tests pass, including the cancellation test."
+  ],
+  "hints": [
+    {
+      "id": "h1",
+      "text": "Check the current state in OrderService.updateOrderStatus before modifying it."
+    }
+  ],
+  "editorial": {
+    "content": "The bug is caused by a missing state check. Add `if(order.getStatus() == OrderStatus.CANCELLED) throw new InvalidStateTransitionException(...)` to OrderService.java.",
+    "author": "RepoRank",
+    "createdAt": "2024-01-01T00:00:00Z",
+    "estimatedReadTimeMinutes": 2
+  }
+}

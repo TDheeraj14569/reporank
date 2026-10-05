@@ -1,0 +1,128 @@
+{
+  "id": "repo-003",
+  "slug": "fix-payment-retry-logic",
+  "title": "Payment Service - Idempotency Bug",
+  "description": "Payment retries are causing duplicate charges due to missing idempotency checks.",
+  "difficulty": "hard",
+  "taskType": "bug-fix",
+  "technology": [
+    "Node.js",
+    "Express"
+  ],
+  "language": "javascript",
+  "estimatedTimeMinutes": 45,
+  "skills": [
+    "Node.js",
+    "Idempotency",
+    "Payments"
+  ],
+  "tags": [
+    "backend",
+    "nodejs",
+    "bug"
+  ],
+  "companyPattern": "Fintech",
+  "repositoryName": "payment-service",
+  "files": [
+    {
+      "id": "f1",
+      "name": "README.md",
+      "path": "README.md",
+      "content": "# Payment Service\nFix duplicate charges in payment retries.",
+      "language": "markdown",
+      "type": "file",
+      "size": 100
+    },
+    {
+      "id": "f2",
+      "name": "index.js",
+      "path": "src/index.js",
+      "content": "const express = require(\"express\");\nconst paymentRoutes = require(\"./routes/payments\");\nconst app = express();\napp.use(express.json());\napp.use(\"/payments\", paymentRoutes);\napp.listen(3000);\n",
+      "language": "javascript",
+      "type": "file",
+      "size": 200
+    },
+    {
+      "id": "f3",
+      "name": "payments.js",
+      "path": "src/routes/payments.js",
+      "content": "const express = require(\"express\");\nconst router = express.Router();\nconst { processPayment } = require(\"../services/paymentService\");\n\nrouter.post(\"/\", async (req, res) => {\n  const result = await processPayment(req.body);\n  res.json(result);\n});\nmodule.exports = router;\n",
+      "language": "javascript",
+      "type": "file",
+      "size": 300
+    },
+    {
+      "id": "f4",
+      "name": "paymentService.js",
+      "path": "src/services/paymentService.js",
+      "content": "const transactions = [];\n\nasync function processPayment(data) {\n  const { amount, idempotencyKey } = data;\n  \n  // BUG: No check if idempotencyKey already exists in transactions\n  const transaction = { id: Date.now(), amount, idempotencyKey, status: \"SUCCESS\" };\n  transactions.push(transaction);\n  \n  return transaction;\n}\n\nmodule.exports = { processPayment, transactions };\n",
+      "language": "javascript",
+      "type": "file",
+      "size": 400
+    },
+    {
+      "id": "f5",
+      "name": "payment.test.js",
+      "path": "tests/payment.test.js",
+      "content": "test(\"Normal payment processing\", () => {\n  expect(true).toBe(true);\n});\n",
+      "language": "javascript",
+      "type": "file",
+      "size": 100
+    },
+    {
+      "id": "f6",
+      "name": "retry.test.js",
+      "path": "tests/retry.test.js",
+      "content": "const { processPayment, transactions } = require(\"../src/services/paymentService\");\n\ntest(\"Retry should not duplicate charge\", async () => {\n  transactions.length = 0;\n  await processPayment({ amount: 100, idempotencyKey: \"abc\" });\n  await processPayment({ amount: 100, idempotencyKey: \"abc\" });\n  \n  if (transactions.length > 1) {\n    throw new Error(\"Duplicate charge created!\");\n  }\n});\n",
+      "language": "javascript",
+      "type": "file",
+      "size": 400
+    }
+  ],
+  "editableFiles": [
+    "src/services/paymentService.js"
+  ],
+  "readOnlyFiles": [
+    "tests/retry.test.js"
+  ],
+  "runCommand": "node src/index.js",
+  "testCommand": "npm test",
+  "visibleTests": [
+    {
+      "id": "t1",
+      "name": "Normal payment processing",
+      "status": "passed",
+      "error": null,
+      "timeMs": 5,
+      "isPassed": true
+    },
+    {
+      "id": "t2",
+      "name": "Retry should not duplicate charge",
+      "status": "failed",
+      "error": "Duplicate charge created!",
+      "timeMs": 15,
+      "isPassed": false
+    }
+  ],
+  "hiddenTestCount": 8,
+  "requirements": [
+    "Ensure idempotent payments."
+  ],
+  "constraints": [],
+  "acceptanceCriteria": [
+    "All tests pass, duplicate charges prevented."
+  ],
+  "hints": [
+    {
+      "id": "h1",
+      "text": "Check the transactions array before pushing."
+    }
+  ],
+  "editorial": {
+    "content": "Find existing transactions by idempotencyKey and return the original result if found.",
+    "author": "RepoRank",
+    "createdAt": "2024-01-01T00:00:00Z",
+    "estimatedReadTimeMinutes": 2
+  }
+}

@@ -1,0 +1,4 @@
+{
+  "buildCmd": "pip install -r requirements.txt",
+  "testCmd": "pytest test_main.py"
+}

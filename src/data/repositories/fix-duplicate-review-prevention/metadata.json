@@ -1,0 +1,83 @@
+{
+  "id": "repo-009",
+  "slug": "fix-duplicate-review-prevention",
+  "title": "Product Review Service - Duplicate Bug",
+  "description": "Users can submit multiple reviews for the same product.",
+  "difficulty": "medium",
+  "taskType": "bug-fix",
+  "technology": [
+    "Java",
+    "Spring Boot"
+  ],
+  "language": "java",
+  "estimatedTimeMinutes": 30,
+  "skills": [
+    "Java",
+    "Validation"
+  ],
+  "tags": [
+    "backend",
+    "java",
+    "bug"
+  ],
+  "companyPattern": "E-commerce",
+  "repositoryName": "product-review-service",
+  "files": [
+    {
+      "id": "f1",
+      "name": "ReviewService.java",
+      "path": "src/main/java/com/reviews/service/ReviewService.java",
+      "content": "package com.reviews.service;\n\npublic class ReviewService {\n    public void addReview(String userId, String productId) {\n        // BUG: Missing check for existing review by userId for productId\n    }\n}\n",
+      "language": "java",
+      "type": "file",
+      "size": 200
+    },
+    {
+      "id": "f2",
+      "name": "ReviewDuplicateTest.java",
+      "path": "src/test/java/com/reviews/ReviewDuplicateTest.java",
+      "content": "package com.reviews;\n\nimport org.junit.jupiter.api.Test;\nimport static org.junit.jupiter.api.Assertions.fail;\n\npublic class ReviewDuplicateTest {\n    @Test\n    public void testDuplicateReview() {\n        fail(\"Duplicate review was allowed\");\n    }\n}\n",
+      "language": "java",
+      "type": "file",
+      "size": 250
+    }
+  ],
+  "editableFiles": [
+    "src/main/java/com/reviews/service/ReviewService.java"
+  ],
+  "readOnlyFiles": [
+    "src/test/java/com/reviews/ReviewDuplicateTest.java"
+  ],
+  "runCommand": "mvn spring-boot:run",
+  "testCommand": "mvn test",
+  "visibleTests": [
+    {
+      "id": "t1",
+      "name": "testDuplicateReview",
+      "status": "failed",
+      "error": "Duplicate review was allowed",
+      "timeMs": 50,
+      "isPassed": false
+    }
+  ],
+  "hiddenTestCount": 6,
+  "requirements": [
+    "Prevent duplicate reviews."
+  ],
+  "constraints": [],
+  "acceptanceCriteria": [
+    "Test passes."
+  ],
+  "hints": [
+    {
+      "id": "h1",
+      "text": "Query DB for existing review before saving."
+    }
+  ],
+  "editorial": {
+    "content": "Add check for existing review.",
+    "author": "RepoRank",
+    "createdAt": "2024-01-01T00:00:00Z",
+    "estimatedReadTimeMinutes": 1
+  }
+}

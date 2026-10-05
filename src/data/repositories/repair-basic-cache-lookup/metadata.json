@@ -1,0 +1,5 @@
+{
+  "buildCmd": "npm install",
+  "testCmd": "npm test",
+  "setupCmd": ""
+}
