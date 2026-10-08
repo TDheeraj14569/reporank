@@ -18,8 +18,8 @@ export interface ChallengeMetadata {
   constraints: string[];
   acceptanceCriteria: string[];
   hints: { level: number; content: string }[];
-  fileCount: number;
-  testCount: number;
+  fileCount?: number;
+  testCount?: number;
 }
 
 export const challengesMetadata: ChallengeMetadata[] = [
@@ -544,19 +544,6 @@ export const challengesMetadata: ChallengeMetadata[] = [
     "fileCount": 8,
     "testCount": 10
   },
-  
-      {
-        "level": 2,
-        "content": "Pay attention to how state or data is being validated before database persistence."
-      },
-      {
-        "level": 3,
-        "content": "Look specifically for missing null checks or unhandled edge cases in the data flow."
-      }
-    ],
-    "fileCount": 8,
-    "testCount": 10
-  },
   {
     "id": 11,
     "slug": "fix-cart-item-removal",
@@ -776,19 +763,6 @@ export const challengesMetadata: ChallengeMetadata[] = [
         "level": 1,
         "content": "Review the recent changes in the main controller or service layer."
       },
-      {
-        "level": 2,
-        "content": "Pay attention to how state or data is being validated before database persistence."
-      },
-      {
-        "level": 3,
-        "content": "Look specifically for missing null checks or unhandled edge cases in the data flow."
-      }
-    ],
-    "fileCount": 8,
-    "testCount": 10
-  },
-  
       {
         "level": 2,
         "content": "Pay attention to how state or data is being validated before database persistence."
@@ -1437,32 +1411,6 @@ export const challengesMetadata: ChallengeMetadata[] = [
     "fileCount": 15,
     "testCount": 25
   },
-  
-      {
-        "level": 2,
-        "content": "Pay attention to how state or data is being validated before database persistence."
-      },
-      {
-        "level": 3,
-        "content": "Look specifically for missing null checks or unhandled edge cases in the data flow."
-      }
-    ],
-    "fileCount": 15,
-    "testCount": 25
-  },
-  
-      {
-        "level": 2,
-        "content": "Pay attention to how state or data is being validated before database persistence."
-      },
-      {
-        "level": 3,
-        "content": "Look specifically for missing null checks or unhandled edge cases in the data flow."
-      }
-    ],
-    "fileCount": 15,
-    "testCount": 25
-  },
   {
     "id": 29,
     "slug": "implement-order-cancellation",
@@ -1509,19 +1457,6 @@ export const challengesMetadata: ChallengeMetadata[] = [
         "level": 1,
         "content": "Review the recent changes in the main controller or service layer."
       },
-      {
-        "level": 2,
-        "content": "Pay attention to how state or data is being validated before database persistence."
-      },
-      {
-        "level": 3,
-        "content": "Look specifically for missing null checks or unhandled edge cases in the data flow."
-      }
-    ],
-    "fileCount": 15,
-    "testCount": 25
-  },
-  
       {
         "level": 2,
         "content": "Pay attention to how state or data is being validated before database persistence."
@@ -1984,19 +1919,6 @@ export const challengesMetadata: ChallengeMetadata[] = [
         "level": 1,
         "content": "Review the recent changes in the main controller or service layer."
       },
-      {
-        "level": 2,
-        "content": "Pay attention to how state or data is being validated before database persistence."
-      },
-      {
-        "level": 3,
-        "content": "Look specifically for missing null checks or unhandled edge cases in the data flow."
-      }
-    ],
-    "fileCount": 15,
-    "testCount": 25
-  },
-  
       {
         "level": 2,
         "content": "Pay attention to how state or data is being validated before database persistence."
