@@ -544,52 +544,7 @@ export const challengesMetadata: ChallengeMetadata[] = [
     "fileCount": 8,
     "testCount": 10
   },
-  {
-    "id": 10,
-    "slug": "repair-book-return-handling",
-    "title": "Repair Book Return Handling",
-    "description": "This Node.js microservice handles critical business operations but has recently exhibited anomalous behavior under specific conditions. Whether it's a data mismatch, a performance bottleneck, or a pure logic flaw, your objective is to trace the execution path, isolate the defect, and apply a robust fix.",
-    "difficulty": "easy",
-    "taskType": "Bug Fix",
-    "technology": [
-      "Python",
-      "FastAPI"
-    ],
-    "language": "python",
-    "estimatedTimeMinutes": 30,
-    "skills": [
-      "Debugging",
-      "Root Cause Analysis",
-      "Unit Testing"
-    ],
-    "tags": [
-      "backend",
-      "bug-fix",
-      "maintenance",
-      "easy",
-      "node.js"
-    ],
-    "companyPattern": "Shopify",
-    "repositoryName": "core-service-10",
-    "requirements": [
-      "Identify the root cause of the logical defect",
-      "Apply a fix that addresses the specific failure case",
-      "Write regression tests to prevent future occurrences"
-    ],
-    "constraints": [
-      "Avoid massive refactoring; focus on fixing the bug",
-      "Maintain the existing API contract"
-    ],
-    "acceptanceCriteria": [
-      "The specific edge case is handled correctly",
-      "All existing unit tests pass",
-      "Performance remains stable or improves"
-    ],
-    "hints": [
-      {
-        "level": 1,
-        "content": "Review the recent changes in the main controller or service layer."
-      },
+  
       {
         "level": 2,
         "content": "Pay attention to how state or data is being validated before database persistence."
@@ -833,52 +788,7 @@ export const challengesMetadata: ChallengeMetadata[] = [
     "fileCount": 8,
     "testCount": 10
   },
-  {
-    "id": 15,
-    "slug": "fix-notification-preference-update",
-    "title": "Fix Notification Preference Update",
-    "description": "This Java microservice handles critical business operations but has recently exhibited anomalous behavior under specific conditions. Whether it's a data mismatch, a performance bottleneck, or a pure logic flaw, your objective is to trace the execution path, isolate the defect, and apply a robust fix.",
-    "difficulty": "easy",
-    "taskType": "Feature Implementation",
-    "technology": [
-      "Python",
-      "FastAPI"
-    ],
-    "language": "python",
-    "estimatedTimeMinutes": 30,
-    "skills": [
-      "Debugging",
-      "Root Cause Analysis",
-      "Unit Testing"
-    ],
-    "tags": [
-      "backend",
-      "bug-fix",
-      "maintenance",
-      "easy",
-      "java"
-    ],
-    "companyPattern": "Stripe",
-    "repositoryName": "core-service-15",
-    "requirements": [
-      "Identify the root cause of the logical defect",
-      "Apply a fix that addresses the specific failure case",
-      "Write regression tests to prevent future occurrences"
-    ],
-    "constraints": [
-      "Avoid massive refactoring; focus on fixing the bug",
-      "Maintain the existing API contract"
-    ],
-    "acceptanceCriteria": [
-      "The specific edge case is handled correctly",
-      "All existing unit tests pass",
-      "Performance remains stable or improves"
-    ],
-    "hints": [
-      {
-        "level": 1,
-        "content": "Review the recent changes in the main controller or service layer."
-      },
+  
       {
         "level": 2,
         "content": "Pay attention to how state or data is being validated before database persistence."
@@ -1527,52 +1437,7 @@ export const challengesMetadata: ChallengeMetadata[] = [
     "fileCount": 15,
     "testCount": 25
   },
-  {
-    "id": 27,
-    "slug": "repair-inventory-reservation",
-    "title": "Repair Inventory Reservation",
-    "description": "The warehouse inventory system manages stock levels across multiple fulfillment centers. We are observing discrepancies where stock goes below zero or fails to decrement correctly under load. You need to repair the reservation or decrement logic, handling concurrent updates safely without degrading performance.",
-    "difficulty": "medium",
-    "taskType": "Bug Fix",
-    "technology": [
-      "Python",
-      "FastAPI"
-    ],
-    "language": "Python",
-    "estimatedTimeMinutes": 60,
-    "skills": [
-      "Concurrency",
-      "Database Locks",
-      "Race Conditions"
-    ],
-    "tags": [
-      "warehouse",
-      "inventory",
-      "concurrency",
-      "medium",
-      "python"
-    ],
-    "companyPattern": "Twilio",
-    "repositoryName": "inventory-api-27",
-    "requirements": [
-      "Implement atomic decrements for stock levels",
-      "Validate stock availability before confirming reservation",
-      "Handle race conditions during high-volume sales events"
-    ],
-    "constraints": [
-      "Must use optimistic locking or database-level constraints",
-      "Cannot introduce deadlocks into the inventory tables"
-    ],
-    "acceptanceCriteria": [
-      "Stock never falls below 0",
-      "Concurrent reservation requests are processed sequentially or rejected gracefully",
-      "Logs accurately reflect inventory changes"
-    ],
-    "hints": [
-      {
-        "level": 1,
-        "content": "Review the recent changes in the main controller or service layer."
-      },
+  
       {
         "level": 2,
         "content": "Pay attention to how state or data is being validated before database persistence."
@@ -1585,52 +1450,7 @@ export const challengesMetadata: ChallengeMetadata[] = [
     "fileCount": 15,
     "testCount": 25
   },
-  {
-    "id": 28,
-    "slug": "fix-payment-retry-logic",
-    "title": "Fix Payment Retry Logic",
-    "description": "Our payment gateway integration handles thousands of transactions per minute. Recently, we've seen duplicate charges and failed payment retries getting stuck in an infinite loop. You must implement or fix the payment retry mechanism, ensuring idempotency and consistent state between our system and the external provider.",
-    "difficulty": "medium",
-    "taskType": "Bug Fix",
-    "technology": [
-      "Node.js",
-      "Express"
-    ],
-    "language": "node",
-    "estimatedTimeMinutes": 60,
-    "skills": [
-      "Idempotency",
-      "External Integrations",
-      "Retry Logic"
-    ],
-    "tags": [
-      "fintech",
-      "payments",
-      "resilience",
-      "medium",
-      "node.js"
-    ],
-    "companyPattern": "Amazon",
-    "repositoryName": "payment-gateway-28",
-    "requirements": [
-      "Ensure payment endpoints are strictly idempotent",
-      "Implement exponential backoff for failed network calls",
-      "Synchronize local payment status with external gateway state"
-    ],
-    "constraints": [
-      "Idempotency keys must be cached for at least 24 hours",
-      "External API calls must have a strict timeout of 5 seconds"
-    ],
-    "acceptanceCriteria": [
-      "Duplicate requests with the same idempotency key return the original result",
-      "Failed payments transition to 'Failed' state after max retries",
-      "Network timeouts do not leave the system in an inconsistent state"
-    ],
-    "hints": [
-      {
-        "level": 1,
-        "content": "Review the recent changes in the main controller or service layer."
-      },
+  
       {
         "level": 2,
         "content": "Pay attention to how state or data is being validated before database persistence."
@@ -1701,52 +1521,7 @@ export const challengesMetadata: ChallengeMetadata[] = [
     "fileCount": 15,
     "testCount": 25
   },
-  {
-    "id": 30,
-    "slug": "fix-cart-synchronization",
-    "title": "Fix Cart Synchronization",
-    "description": "In our e-commerce platform, the order management system relies on strict validation and state transitions. Currently, edge cases in order processing are causing dropped requests or invalid states. Your task is to investigate the order flow, correct the validation logic or state machine, and ensure data integrity is preserved during concurrent operations.",
-    "difficulty": "medium",
-    "taskType": "Bug Fix",
-    "technology": [
-      "Node.js",
-      "Express"
-    ],
-    "language": "node",
-    "estimatedTimeMinutes": 60,
-    "skills": [
-      "State Machines",
-      "Transaction Management",
-      "Data Validation"
-    ],
-    "tags": [
-      "ecommerce",
-      "order-management",
-      "backend",
-      "medium",
-      "python"
-    ],
-    "companyPattern": "Uber",
-    "repositoryName": "order-service-30",
-    "requirements": [
-      "Validate all order line items against current catalog availability",
-      "Ensure order state transitions adhere strictly to the allowed state machine pathways",
-      "Reject malformed or incomplete order payloads with appropriate error codes"
-    ],
-    "constraints": [
-      "Must not break existing downstream webhooks",
-      "Operation must complete within a single database transaction"
-    ],
-    "acceptanceCriteria": [
-      "Order creation succeeds with valid payload",
-      "Invalid states are rejected with 400 Bad Request",
-      "State transitions from 'Pending' to 'Shipped' work correctly"
-    ],
-    "hints": [
-      {
-        "level": 1,
-        "content": "Review the recent changes in the main controller or service layer."
-      },
+  
       {
         "level": 2,
         "content": "Pay attention to how state or data is being validated before database persistence."
@@ -2221,51 +1996,7 @@ export const challengesMetadata: ChallengeMetadata[] = [
     "fileCount": 15,
     "testCount": 25
   },
-  {
-    "id": 39,
-    "slug": "fix-shipment-state-transitions",
-    "title": "Fix Shipment State Transitions",
-    "description": "This Python microservice handles critical business operations but has recently exhibited anomalous behavior under specific conditions. Whether it's a data mismatch, a performance bottleneck, or a pure logic flaw, your objective is to trace the execution path, isolate the defect, and apply a robust fix.",
-    "difficulty": "medium",
-    "taskType": "Bug Fix",
-    "technology": [
-      "Go"
-    ],
-    "language": "go",
-    "estimatedTimeMinutes": 60,
-    "skills": [
-      "Debugging",
-      "Root Cause Analysis",
-      "Unit Testing"
-    ],
-    "tags": [
-      "backend",
-      "bug-fix",
-      "maintenance",
-      "medium",
-      "python"
-    ],
-    "companyPattern": "Netflix",
-    "repositoryName": "core-service-39",
-    "requirements": [
-      "Identify the root cause of the logical defect",
-      "Apply a fix that addresses the specific failure case",
-      "Write regression tests to prevent future occurrences"
-    ],
-    "constraints": [
-      "Avoid massive refactoring; focus on fixing the bug",
-      "Maintain the existing API contract"
-    ],
-    "acceptanceCriteria": [
-      "The specific edge case is handled correctly",
-      "All existing unit tests pass",
-      "Performance remains stable or improves"
-    ],
-    "hints": [
-      {
-        "level": 1,
-        "content": "Review the recent changes in the main controller or service layer."
-      },
+  
       {
         "level": 2,
         "content": "Pay attention to how state or data is being validated before database persistence."
