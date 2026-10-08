@@ -22,6 +22,10 @@ RUN ln -s /usr/bin/python3 /usr/bin/python || true
 # Set up the working directory
 WORKDIR /app
 
+# Restrict memory limits for Render's 512MB Free Tier
+ENV MAVEN_OPTS="-Xmx256m -XX:MaxMetaspaceSize=128m"
+ENV NODE_OPTIONS="--max-old-space-size=256"
+
 # Create a restricted user for sandboxed code execution
 RUN useradd -m -s /bin/bash sandboxuser
 
