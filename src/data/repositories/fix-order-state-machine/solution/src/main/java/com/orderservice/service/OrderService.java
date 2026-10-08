@@ -18,9 +18,12 @@ public class OrderService {
         Order order = orderRepository.findById(orderId)
             .orElseThrow(() -> new RuntimeException("Order not found"));
         
-        // BUG: Missing check if current status is CANCELLED
+        // BUG FIX: Prevent changing status of both DELIVERED and CANCELLED orders
         if (order.getStatus() == OrderStatus.DELIVERED) {
             throw new InvalidStateTransitionException("Cannot change status of delivered order");
+        }
+        if (order.getStatus() == OrderStatus.CANCELLED) {
+            throw new InvalidStateTransitionException("Cannot change status of cancelled order");
         }
 
         order.setStatus(newStatus);
