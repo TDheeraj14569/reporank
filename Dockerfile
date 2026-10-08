@@ -32,8 +32,8 @@ RUN npm ci
 # Copy the rest of the application
 COPY . .
 
-# Generate Prisma Client and create SQLite database
-RUN npx prisma generate && npx prisma db push
+# Generate Prisma Client
+RUN npx prisma generate
 
 # Build the Next.js application
 RUN npm run build
@@ -41,5 +41,5 @@ RUN npm run build
 # Expose the port the app runs on
 EXPOSE 3000
 
-# Start the application
-CMD ["npm", "start"]
+# Start the application and sync the database
+CMD ["sh", "-c", "npx prisma db push --accept-data-loss && npm start"]
